@@ -1,0 +1,13 @@
+[Unit]
+Description=Attack deployer/worker manager
+After=syslog.target
+
+[Service]
+Type=idle
+WorkingDirectory=/srv/attack_srv
+ExecStart=python3 /srv/attack_srv/worker_manager.py
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

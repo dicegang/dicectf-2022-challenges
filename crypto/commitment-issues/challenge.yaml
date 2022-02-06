@@ -1,0 +1,9 @@
+name: commitment-issues
+author: gripingberry
+description: |-
+  I created a new commitment scheme, but commitment is scary so I threw away the key.
+provide:
+- ./scheme.py
+- ./data.txt
+flag:
+  file: ./flag.txt

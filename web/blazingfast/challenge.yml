@@ -1,0 +1,28 @@
+name: blazingfast
+author: larry
+description: |-
+  I made a blazing fast MoCkInG CaSe converter!
+
+  ${link_main_0}
+
+  [Admin Bot](https://admin-bot.mc.ax/blazingfast)
+
+provide:
+  - ./blazingfast.tar
+  - ./admin-bot.js
+  - ./blazingfast.c
+
+flag:
+  file: flag.txt
+
+containers:
+  main:
+    build: .
+    ports:
+      - 8080
+
+expose:
+  main:
+    - target: 8080
+      http: blazingfast
+      healthContent: blazingfast

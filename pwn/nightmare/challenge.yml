@@ -1,0 +1,28 @@
+name: nightmare
+author: pepsipu
+description: |-
+  Can you pwn when you can't see?
+  
+  Hint: Partial RELRO? That sounds like a really complex surface...
+
+  Hint 2: What happens if _Exit doesnt exit?
+
+  `${nc_main_0}`
+provide:
+  - nightmare.zip
+
+flag: dice{7H3_L1NK3r_15_4_C0mpL3x_5UrF4c3}
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31477

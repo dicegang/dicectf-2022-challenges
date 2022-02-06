@@ -1,0 +1,26 @@
+name: knock-knock
+author: BrownieInMotion
+description: |-
+  Knock knock? Who's there? Another pastebin!!
+
+  ${link_main_0}
+
+flag: dice{1_d00r_y0u_d00r_w3_a11_d00r_f0r_1_d00r}
+
+provide:
+  - ./index.js
+  - ./Dockerfile
+
+containers:
+  main:
+    build: .
+    ports:
+      - 3000
+    environment:
+      FLAG: "dice{1_d00r_y0u_d00r_w3_a11_d00r_f0r_1_d00r}"
+
+expose:
+  main:
+    - target: 3000
+      http: knock-knock
+      healthContent: Create Paste

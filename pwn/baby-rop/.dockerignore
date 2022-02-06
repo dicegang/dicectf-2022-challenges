@@ -1,0 +1,4 @@
+*
+!/bin/flag.txt
+!/bin/seccomp-bpf.h
+!/bin/uaf.c

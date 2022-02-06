@@ -1,0 +1,7 @@
+name: survey
+author: defund
+description: |-
+  Complete our [survey](https://forms.gle/gSEdEjbvnNJmRrqF6) to get the flag!
+flag: dice{thanks_for_playing_dicectf!!!}
+value: 1
+tiebreakEligible: false

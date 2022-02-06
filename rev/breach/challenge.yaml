@@ -1,0 +1,9 @@
+name: breach
+author: hgarrereyn
+description: |-
+  Check out this VM I made! Wait... something doesn't feel right...
+
+  _Note: The Dockerfile is provided on purpose..._
+flag: dice{st4ying_ins1de_vms_1s_0verr4ted}
+provide:
+  - ./breach.zip

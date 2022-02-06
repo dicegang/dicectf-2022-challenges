@@ -1,0 +1,31 @@
+name: baby-rop
+author: ireland
+description: |-
+  this ROP tastes kinda funny...
+
+  `${nc_main_0}`
+provide:
+  - file: bin/run
+    as: babyrop
+  - bin/ld-linux-x86-64.so.2
+  - bin/libc.so.6
+  - bin/uaf.c
+  - bin/seccomp-bpf.h
+
+flag:
+  file: ./bin/flag.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31245
+      healthContent: enter your command

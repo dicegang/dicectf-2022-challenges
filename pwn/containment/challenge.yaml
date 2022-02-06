@@ -1,0 +1,27 @@
+name: containment
+author: hgarrereyn
+description: |-
+  Please help me! This VM is out of control...
+
+  `${nc_main_0}`
+
+  _Note: This is the same challenge as breach. You do not necessarily need to solve breach to solve this challenge. The server is running the provided Dockerfile._
+flag:
+  file: flag.txt
+provide:
+  - ./breach.zip
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31618
+      healthContent: Flag

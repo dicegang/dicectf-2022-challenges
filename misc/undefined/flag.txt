@@ -1,0 +1,1 @@
+dice{who_needs_builtins_when_you_have_arguments}

@@ -1,0 +1,24 @@
+name: TI-1337 Silver Edition
+author: kmh
+description: |-
+  Back in the day the silver edition was the top of the line Texas Instruments calculator, but now the security is looking a little obsolete. Can you break it?
+
+  `${nc_main_0}`
+flag:
+  file: ./deploy/flag.txt
+provide:
+- ./deploy/ti1337se.py
+- ./deploy/Dockerfile
+containers:
+  main:
+    build: deploy
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+expose:
+  main:
+  - target: 5000
+    tcp: 31773
+    healthContent: Welcome to the TI-1337 Silver Edition.

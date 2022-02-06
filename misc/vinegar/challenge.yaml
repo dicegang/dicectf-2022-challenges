@@ -1,0 +1,22 @@
+name: Vinegar
+author: kmh
+description: |-
+  This challenge is so contrived, I'm not even going to try to write flavor text.
+
+  `${nc_main_0}`
+flag: dice{buh2Qdj0219}
+provide:
+- ./vinegar.py
+- ./deploy/Dockerfile
+containers:
+  main:
+    build: deploy
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+expose:
+  main:
+  - target: 5000
+    tcp: 31774

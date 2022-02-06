@@ -1,0 +1,17 @@
+name: vm-calc
+deployed: false
+author: Strellic
+description: |-
+  A simple and very secure online calculator!
+
+  [instancer.mc.ax/vm-calc](https://instancer.mc.ax/vm-calc)
+
+flag:
+  file: flag.txt
+
+provide:
+  - ./dist.tar
+
+containers:
+  main:
+    build: .

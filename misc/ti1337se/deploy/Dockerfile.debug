@@ -1,0 +1,14 @@
+# build: docker build . -t ti1337se
+# run: docker run --rm --name ti1337se -p 31337:1337 ti1337se
+# connect: nc localhost 31337
+# stop: docker kill ti1337se
+FROM python:3.9 as app
+COPY ti1337se.py /run
+COPY flag.txt /flag.txt
+RUN mv /flag.txt /flag.`tr -dc A-Za-z0-9 < /dev/urandom | head -c 20`.txt
+RUN chmod +x /ti1337se.py
+RUN apt update && apt install -y gdb && bash -c "$(curl -fsSL http://gef.blah.cat/sh)"
+CMD /bin/bash
+
+FROM redpwn/jail
+COPY --from=app / /srv

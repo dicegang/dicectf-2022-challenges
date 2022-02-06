@@ -1,0 +1,31 @@
+name: learning without errors
+author: ireland
+description: |-
+  Choose Keys Karefully for Security
+
+  `${nc_main_0}`
+
+flag:
+  file: ./flag.txt
+provide:
+  - ./server.py
+  - ./challenge.py
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31614
+      healthContent: Please hold, generating keys

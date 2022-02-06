@@ -1,0 +1,34 @@
+name: Cache On The Side
+author: wiresboy
+description: |-
+  Can you get the flag, without touching it at all?
+
+  See ${link_main_0} for details.
+
+flag: dice{s1de-chan/V3ls_w0rk_2_w3l1}
+
+provide:
+- ./victim.c
+- ./fake_flag.h
+
+containers:
+  main:
+    build: frontend
+    environment:
+      PORT: 8000
+    secretEnv:
+      APP_RECAPTCHA_SITE:
+        name: recaptcha
+        key: site
+      APP_RECAPTCHA_SECRET:
+        name: recaptcha
+        key: secret
+    ports:
+      - 8000
+    serviceAccount: cache-on-the-side-frontend
+
+expose:
+  main:
+  - target: 8000
+    http: cache-on-the-side  # subdomain name
+    healthContent: Cache On The Side

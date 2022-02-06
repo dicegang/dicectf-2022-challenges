@@ -1,0 +1,19 @@
+name: denoblog
+deployed: false
+author: Strellic
+description: |-
+  I love NodeJS and all, but I've heard that Deno is pretty cool...
+
+  I'm making my new blog on it! Even if there's a vuln, Deno will protect me, right?
+
+  [instancer.mc.ax/denoblog](https://instancer.mc.ax/denoblog)
+
+flag:
+  file: flag.txt
+
+provide:
+  - ./dist.tar
+
+containers:
+  main:
+    build: .

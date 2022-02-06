@@ -1,0 +1,5 @@
+.dockerignore
+admin-bot.js
+challenge.yaml
+dist.tar
+Dockerfile

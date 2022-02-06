@@ -1,0 +1,27 @@
+name: noteKeeper
+author: Strellic
+description: |-
+  Yet another note keeping application... but this one supports voice memos!!!
+
+  ${link_main_0}
+
+  [Admin Bot](https://admin-bot.mc.ax/notekeeper)
+
+flag: dice{jsonp_how_could_you_do_this_to_me}
+
+provide:
+  - ./dist.tar
+
+containers:
+  main:
+    build: .
+    ports:
+      - 8000
+    environment:
+      JWT_SECRET: "iRQE9Ykmx50p65JvPoYNSWmN9ruJXOBctoHPfrw287HFMcwBSlKLmJ1NcVtOOHx9"
+      PORT: 8000
+expose:
+  main:
+    - target: 8000
+      http: notekeeper
+      healthContent: noteKeeper

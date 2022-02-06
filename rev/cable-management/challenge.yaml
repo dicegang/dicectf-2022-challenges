@@ -1,0 +1,9 @@
+name: cable management
+author: evilmuffinha
+description: |-
+  Help me manage my cables!
+
+  _Note: Flag may take a while to verify_
+flag: dice{w0rld_of_w1res_03294803}
+provide:
+  - chall

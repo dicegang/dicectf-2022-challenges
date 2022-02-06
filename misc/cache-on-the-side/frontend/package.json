@@ -1,0 +1,20 @@
+{
+  "name": "ctf_frontend",
+  "version": "1.0.0",
+  "description": "Cache Side Channels frontend",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/pubsub": "^2.18.4",
+    "@google-cloud/storage": "^5.18.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "got": "^11.8.3",
+    "multer": "^1.4.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wiresboy",
+  "license": "MIT"
+}

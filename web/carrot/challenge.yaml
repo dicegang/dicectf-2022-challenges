@@ -1,0 +1,20 @@
+name: carrot
+deployed: false
+author: larry
+description: |-
+  carrots are a great source of nutrition, they really help your brain!
+
+  [Admin Bot](https://admin-bot.mc.ax/carrot)
+
+  [Instancer](https://instancer.mc.ax/carrot)
+
+flag:
+  file: ./flag.txt
+
+provide:
+  - ./carrot.tar
+  - ./admin-bot.js
+
+containers:
+  main:
+    build: .

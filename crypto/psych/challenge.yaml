@@ -1,0 +1,32 @@
+name: psych
+author: defund
+description: |-
+  You thought you were getting elliptic curve cryptography? >:)
+
+  `${nc_main_0}`
+provide:
+  - file: ./server.py
+    as: psych.py
+  - ./pk.bin
+  - ./flag.enc
+flag:
+  file: ./flag.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31338
+      healthContent: ct (hex)

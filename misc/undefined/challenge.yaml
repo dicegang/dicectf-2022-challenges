@@ -1,0 +1,27 @@
+name: undefined
+author: aplet123
+description: |-
+  I was writing some Javascript when everything became undefined...
+
+  Can you create something out of nothing and read the flag at `/flag.txt`? Tested for Node version 17.
+  
+  `${nc_main_0}`
+flag: dice{who_needs_builtins_when_you_have_arguments}
+
+provide:
+- ./index.js
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+  - target: 5000
+    tcp: 31131
+    healthContent: What do you want to run?

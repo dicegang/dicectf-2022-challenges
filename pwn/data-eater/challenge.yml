@@ -1,0 +1,25 @@
+name: data-eater
+author: KyleForkBomb
+description: |-
+  nom nom nom! i can eat all kinds of data :D
+
+  `${nc_main_0}`
+provide:
+  - file: bin/run
+    as: dataeater
+flag:
+  file: ./bin/flag.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31869

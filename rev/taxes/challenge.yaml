@@ -1,0 +1,17 @@
+name: taxes
+author: hgarrereyn
+description: |-
+  Active participants of DiceCTF 2022 are required to complete form DG1 "Flag Validation."
+  Failure to do so may result in disqualification.
+  - _An official message of the [DiceGang Revenue Service](${url_main_0})_
+flag: dice{int3rn4l_r3venue_serv1ce_m0re_l1ke_ink_rev3rs1ng_simul4ti0n_lmao}
+
+containers:
+  main:
+    build: .
+    ports: [80]
+expose:
+  main:
+  - target: 80
+    http: drs
+    healthContent: DiceGang Revenue Service

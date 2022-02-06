@@ -1,0 +1,24 @@
+name: flare
+author: larry
+description: |-
+  ${link_main_0}
+
+flag: dice{cloudflare_has_the_best_products_with_the_best_l0gic}
+
+provide:
+  - ./flare.tar
+
+containers:
+  main:
+    build: .
+    ports:
+      - 8080
+    environment:
+      FLAG: 'dice{cloudflare_has_the_best_products_with_the_best_l0gic}'
+
+expose:
+  main:
+    - target: 8080
+      http: flare
+      cloudflareMtls: true
+      healthContent: No flag for

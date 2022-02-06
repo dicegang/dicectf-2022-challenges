@@ -1,0 +1,4 @@
+.dockerignore
+challenge.yaml
+dist.tar
+Dockerfile

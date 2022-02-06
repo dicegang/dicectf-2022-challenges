@@ -1,0 +1,8 @@
+name: hyperlink
+author: BrownieInMotion
+description: |-
+  I made a really fun game! Can you link up the chain to reach the destination?
+provide:
+  - ./app.py
+  - ./hyperlink.json
+flag: dice{everything_is_linear_algebra}

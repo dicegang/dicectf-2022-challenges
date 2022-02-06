@@ -1,0 +1,26 @@
+name: dicevault
+author: arxenix
+description: |-
+  Can you steal from the vault?
+
+  Note- this challenge was inspired by and uses assets from the [vault pbctf challenge](https://ctftime.org/task/17593) (credit to [vakzz](https://twitter.com/wcbowling))
+  Note 2- the admin bot may be slightly unstable, if you believe you have a working payload, please open a ticket and ping @arxenix#1337
+
+  ${link_main_0}
+
+  [Admin Bot](https://admin-bot.mc.ax/dicevault)
+flag:
+  file: flag.txt
+provide:
+  - ./dicevault.tar
+containers:
+  main:
+    build: ./app
+    ports:
+      - 5000
+expose:
+  main:
+    - target: 5000
+      http: dicevault
+      healthPath: /health
+      healthContent: dicevault

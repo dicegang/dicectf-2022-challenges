@@ -1,0 +1,14 @@
+name: road-to-failure
+author: NotDeGhost
+description: |-
+  Just call the function and win... what can go wrong?
+
+  [admin-bot-road.mc.ax/submit](https://admin-bot-road.mc.ax/submit)
+
+provide:
+  - file: ctf.tar.gz
+    as: ctf.tar.gz
+  - url: https://static.dicega.ng/uploads/4c3499a0e4d875a9b8dfd45fd80f2de2a6607f766044d009c0fceb7d5be67299/road-to-failure.tar.gz
+    as: road-to-failure.tar.gz
+
+flag: dice{my_m1nd_rac3s_w1th_m0jo_1nt3rnal5_6c3898cc}

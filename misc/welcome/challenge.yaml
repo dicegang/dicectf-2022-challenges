@@ -1,0 +1,7 @@
+name: welcome
+author: defund
+description: |-
+  Please join the competition [Discord](https://discord.com/invite/CbCXtrDE5m) and read the `#rules` channel.
+flag: dice{sice}
+value: 1
+tiebreakEligible: false

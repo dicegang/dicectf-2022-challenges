@@ -1,0 +1,13 @@
+#!/bin/bash
+FILENAME=/tmp/$(tr -dc A-Za-z0-9 </dev/urandom | head -c 13 ; echo '').js
+echo "welcome to oceania.  type some js and put EOF on the last line"
+while read p;
+do
+if [ "$p" == "EOF" ]; then
+   break
+fi
+  echo "$p" >> $FILENAME
+done
+
+./d8 $FILENAME
+rm $FILENAME

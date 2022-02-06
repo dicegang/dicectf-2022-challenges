@@ -1,0 +1,11 @@
+[Unit]
+Description=Flag victim command runner
+After=syslog.target
+
+[Service]
+Type=idle
+ExecStart=taskset -c 0 /srv/victim
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+from pwn import *
+
+exe = ELF("./bin/nightmare")
+libc = ELF("./lib/libc.so.6")
+ld = ELF("./lib/ld-linux-x86-64.so.2")
+
+
+def conn():
+    if args.LOCAL:
+        r = process([exe.path])
+    else:
+        r = remote("0.0.0.0", 1337)
+
+    return r
+
+
+def main():
+    r = conn()
+
+    # good luck pwning :)
+
+    r.interactive()
+
+
+if __name__ == "__main__":
+    main()

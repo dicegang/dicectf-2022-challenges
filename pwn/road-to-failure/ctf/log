@@ -1,0 +1,50 @@
+commit fad861f65d7d99748a9d4d945ee349d1f9e87852
+Author: Chrome Release Bot (LUCI) <chrome-official-brancher@chops-service-accounts.iam.gserviceaccount.com>
+Date:   Thu Jan 27 01:31:49 2022 +0000
+
+    Publish DEPS for 99.0.4844.9
+
+commit d453c68896f0f8917dcc3b7dbe14694c61e292b2
+Author: Chrome Release Bot (LUCI) <chrome-official-brancher@chops-service-accounts.iam.gserviceaccount.com>
+Date:   Thu Jan 27 01:30:43 2022 +0000
+
+    Incrementing VERSION to 99.0.4844.9
+    
+    Change-Id: I8008f695d586a1f57c08ce89a9b87cd80870ae28
+    Reviewed-on: https://chromium-review.googlesource.com/c/chromium/src/+/3419282
+    Bot-Commit: Chrome Release Bot (LUCI) <chrome-official-brancher@chops-service-accounts.iam.gserviceaccount.com>
+    Cr-Commit-Position: refs/branch-heads/4844@{#70}
+    Cr-Branched-From: 007241ce2e6c8e5a7b306cc36c730cd07cd38825-refs/heads/main@{#961656}
+
+commit 5132d079e926d294416fe630fa7f82905c309035
+Author: Sergey Ulanov <sergeyu@chromium.org>
+Date:   Thu Jan 27 01:11:14 2022 +0000
+
+    [M99] Revert "Use DISABLE_GL_RGB_FORMAT workaround when Vulkan is enabled."
+    
+    This reverts commit 3b3f886cf2dcf233b1beaa58ff20b4289f293369
+    
+    Reason for revert: Will revert ANGLE fix that change RGB format layout
+    Bug: 1289551
+    
+    Original change's description:
+    > Use DISABLE_GL_RGB_FORMAT workaround when Vulkan is enabled.
+    >
+    > ExternalVkImageBacking doesn't handle RGBX textures correctly when used
+    > with current versions of ANGLE. DISABLE_GL_RGB_FORMAT allows to
+    > workaround that issue.
+    >
+    > Bug: 1269826, 1261867
+    > Change-Id: Iba522312ad15713d2d712e06ad9e4c185ec15893
+    > Reviewed-on: https://chromium-review.googlesource.com/c/chromium/src/+/3278487
+    > Reviewed-by: Peng Huang <penghuang@chromium.org>
+    > Commit-Queue: Sergey Ulanov <sergeyu@chromium.org>
+    > Cr-Original-Commit-Position: refs/heads/main@{#941311}
+    
+    Change-Id: I7e2f061dd9d3dc579e85a95b64c4b981e446f1a6
+    Reviewed-on: https://chromium-review.googlesource.com/c/chromium/src/+/3418268
+    Auto-Submit: Sergey Ulanov <sergeyu@chromium.org>
+    Reviewed-by: Peng Huang <penghuang@chromium.org>
+    Commit-Queue: Peng Huang <penghuang@chromium.org>
+    Cr-Commit-Position: refs/branch-heads/4844@{#69}
+    Cr-Branched-From: 007241ce2e6c8e5a7b306cc36c730cd07cd38825-refs/heads/main@{#961656}

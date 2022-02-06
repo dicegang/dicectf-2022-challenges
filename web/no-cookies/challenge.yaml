@@ -1,0 +1,21 @@
+name: no-cookies
+deployed: false
+author: BrownieInMotion
+description: |-
+  I found a more secure way to authenticate users. No cookies, no problems!
+
+  [instancer.mc.ax/no-cookies](https://instancer.mc.ax/no-cookies)
+
+  [Admin Bot](https://admin-bot.mc.ax/no-cookies)
+
+flag:
+  file: flag.txt
+
+provide:
+  - ./dist.tar
+  - ./index.js
+  - ./admin-bot.js
+
+containers:
+  main:
+    build: .

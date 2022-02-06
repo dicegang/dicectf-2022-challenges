@@ -1,0 +1,15 @@
+name: flagle
+author: infuzion
+description: |-
+  How hard could it be? Just guess the [flag](${url_main_0}).
+flag: dice{F!3lDd0Nu7cwrapm@x!MT$r3}
+
+containers:
+  main:
+    build: .
+    ports: [80]
+expose:
+  main:
+  - target: 80
+    http: flagle
+    healthContent: Flagle

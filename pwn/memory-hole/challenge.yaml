@@ -1,0 +1,28 @@
+name: memory hole
+author: orwell0 (chop0)
+description: |-
+  literally 1984.
+
+  `${nc_main_0}`
+
+  _note:  you should read the design doc of The Cage and its code;  try to understand how it works, since it'll be hard to solve this challenge by just jit monkeying.
+
+provide:
+  - ./1984.tar.gz
+flag:
+  file: ./bin/asfdjklafdsljkadsf4538df.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31441
+      healthContent: welcome to oceania.

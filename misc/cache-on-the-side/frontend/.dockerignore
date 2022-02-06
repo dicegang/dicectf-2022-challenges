@@ -1,0 +1,6 @@
+.dockerignore
+Dockerfile
+npm_modules
+npm-debug.log
+log.note
+frontend_notes.txt

@@ -1,0 +1,16 @@
+name: 5D File System with Multiverse Time Travel
+author: poortho
+description: |-
+  It seems like this filesystem has a flag, but it's locked! Can you use your time machine to find a world line with the flag?
+
+  `nc 5dfs.mc.ax 5000`
+flag:
+  file: ./flag
+
+provide:
+- ./5dfswmtt
+- ./5dfs.go
+- ./multiverse.go
+- ./txs.go
+- ./Dockerfile
+- ./setup.sh

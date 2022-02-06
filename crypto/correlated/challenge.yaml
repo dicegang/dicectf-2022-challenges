@@ -1,0 +1,29 @@
+name: correlated
+author: ireland
+description: |-
+  I heard that fast correlation attacks don't work if your LFSR has more than 10 taps.
+
+  `${nc_main_0}`
+provide:
+  - file: correlated.py
+flag:
+  file: ./flag.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31683
+      healthContent: I heard that fast correlation attacks

@@ -1,0 +1,27 @@
+name: interview-opportunity
+author: smoothhacker
+description: |-
+  Good luck on your interview...
+
+  `${nc_main_0}`
+provide:
+  - bin/interview-opportunity
+  - bin/libc.so.6
+
+flag:
+  file: ./bin/flag.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31081
+      healthContent: Thank you for you interest in applying to DiceGang.

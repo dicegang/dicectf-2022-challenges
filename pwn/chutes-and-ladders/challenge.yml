@@ -1,0 +1,29 @@
+name: chutes-and-ladders
+author: bosh
+description: |-
+  As you know, DiceGang is not about solving chutes and ladders. But I am!
+  `${nc_main_0}`
+provide:
+  - bin/chutes
+  - bin/ld-linux-x86-64.so.2
+  - bin/libc.so.6
+
+flag:
+  file: ./bin/flag.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+    environment:
+      JAIL_TIME: "180"
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31326
+      healthContent: Number of players

@@ -1,0 +1,10 @@
+name: sober-bishop
+author: clubby789
+description: |-
+  Flag format is `dice{[a-z0-9_-]+}`
+  [Reference](https://github.com/openssh/openssh-portable/blob/d9dbb5d9a0326e252d3c7bc13beb9c2434f59409/sshkey.c#L1180)
+
+flag: dice{unr4nd0m}
+provide:
+  - ./flag
+  - ./hash

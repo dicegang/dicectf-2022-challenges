@@ -1,0 +1,9 @@
+name: baby-rsa
+author: ireland
+description: |-
+  I messed up prime generation, and now my private key doesn't work!
+provide:
+- ./generate.py
+- ./data.txt
+flag:
+  file: ./flag.txt

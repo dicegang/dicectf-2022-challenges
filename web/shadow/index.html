@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>shadow</title>
+  </head>
+  <body>
+    <h3 id="title">store your secrets here:</h3>
+    <div id="vault"></div>
+    <div id="xss"></div>
+    <script>
+      // the admin has the flag set in localStorage["secret"]
+      let secret = localStorage.getItem("secret") ?? "dice{not_real_flag}"
+      let shadow = window.vault.attachShadow({ mode: "closed" });
+      let div = document.createElement("div");
+      div.innerHTML = `
+          <p>steal me :)</p>
+          <!-- secret: ${secret} -->
+      `;
+      let params = new URL(document.location).searchParams;
+      let x = params.get("x");
+      let y = params.get("y");
+      div.style = y;
+      shadow.appendChild(div);
+      secret = null;
+      localStorage.removeItem("secret");
+      shadow = null;
+      div = null;
+      
+      // free XSS
+      window.xss.innerHTML = x;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<html><head>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+</head><body>
+<h1>Cache On The Side</h1>
+<h3>Can you get the flag, without touching it at all?</h3>
+<p>We have <code>victim.c</code> running on a Intel Skylake vCPU, and will run any code you submit on a neighboring, but isolated, vCPU. Can you get the flag? </p>
+
+<form id="form" action="upload" method="post" enctype="multipart/form-data">
+<p><b>Ready to jump in?</b> Upload your C code here: </p>
+<input type="file" name="attack" id="attack" accept=".c">
+<input type="hidden" name="recaptcha_code" id="recaptcha_code">
+<input type="submit" value="Submit">
+</form>
+
+<hr>
+<h3>Useful details:</h3>
+
+<ul><li>
+    We will run your code for up to 30 seconds and return all output sent to stdout and stderr. This is more than enough time to extract the entire flag.
+</li><li>
+    The intended exploit reliably works on every Skylake CPU we have tested. If you don't have one available and want to develop separately, you can use Google Cloud Platform's N1 series.
+</li><li>
+    Neighboring vCPUs are really just pairs of hyperthreads on a single physical core.
+</li><li>
+    The max attack .c file size is 1MB. The max response size is 10MB, but if more data is generated then any excess data will simply be trimmed. <br>
+    Note that a results url will be generated immediately upon code being uploaded, but depending on the length of the queue it may take a few minutes for the results to be published. 
+</li><li>
+    Result of <code>lscpu</code> on the target machine:
+<pre><code>Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   46 bits physical, 48 bits virtual
+CPU(s):                          2
+On-line CPU(s) list:             0,1
+Thread(s) per core:              2
+Core(s) per socket:              1
+Socket(s):                       1
+NUMA node(s):                    1
+Vendor ID:                       GenuineIntel
+CPU family:                      6
+Model:                           85
+Model name:                      Intel(R) Xeon(R) CPU @ 2.00GHz
+Stepping:                        3
+CPU MHz:                         2000.152
+BogoMIPS:                        4000.30
+Hypervisor vendor:               KVM
+Virtualization type:             full
+L1d cache:                       32 KiB
+L1i cache:                       32 KiB
+L2 cache:                        1 MiB
+L3 cache:                        38.5 MiB
+NUMA node0 CPU(s):               0,1
+Vulnerability Itlb multihit:     Not affected
+Vulnerability L1tf:              Mitigation; PTE Inversion
+Vulnerability Mds:               Mitigation; Clear CPU buffers; SMT Host state unknown
+Vulnerability Meltdown:          Mitigation; PTI
+Vulnerability Spec store bypass: Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Full generic retpoline, IBPB conditional, IBRS_FW, STIBP conditional, RSB filling
+Vulnerability Srbds:             Not affected
+Vulnerability Tsx async abort:   Mitigation; Clear CPU buffers; SMT Host state unknown
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single pti ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves arat md_clear arch_capabilities</code></pre>
+</li></ul>
+<script>
+grecaptcha.ready(function () {
+grecaptcha.render({
+    theme: 'light',
+    sitekey: '<%- process.env.APP_RECAPTCHA_SITE %>',
+    callback: function (token) {
+    recaptcha_code.value = token
+    form.submit()
+    }
+})
+})
+form.addEventListener('submit', function (evt) {
+    evt.preventDefault()
+    grecaptcha.execute()
+})
+</script>
+</body></html>

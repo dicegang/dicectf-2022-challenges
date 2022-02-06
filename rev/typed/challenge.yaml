@@ -1,0 +1,9 @@
+name: typed
+author: aplet123
+description: |-
+  ~~Haskell~~ Rust is a dynamically typed, interpreted language.
+  Can you get my code to stop erroring?
+flag: dice{l1sp_insid3_rus7_9afh1n23}
+
+provide:
+- ./chall.rs

@@ -1,0 +1,1 @@
+dice{1_dont_know_how_to_write_wasm_pwn_s0rry}

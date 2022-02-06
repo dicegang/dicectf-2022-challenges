@@ -1,0 +1,24 @@
+name: shadow
+author: arxenix
+description: |-
+  I found a totally secure way to insert secrets into a webpage
+
+  ${link_main_0}
+
+  [Admin Bot](https://admin-bot.mc.ax/shadow)
+
+  Hint 1: non-standard css properties might help you
+
+  Hint 2: it sure would be nice if the *user* could *modify* stuff inside the shadow dom
+flag:
+  file: flag.txt
+containers:
+  main:
+    build: .
+    ports:
+      - 8080
+expose:
+  main:
+    - target: 8080
+      http: shadow
+      healthContent: shadow

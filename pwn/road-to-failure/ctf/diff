@@ -1,0 +1,293 @@
+diff --git a/content/browser/BUILD.gn b/content/browser/BUILD.gn
+index 030c08e9b3401..ec1a8bf2018e1 100644
+--- a/content/browser/BUILD.gn
++++ b/content/browser/BUILD.gn
+@@ -23,6 +23,18 @@ import("//printing/buildflags/buildflags.gni")
+ import("//third_party/blink/public/public_features.gni")
+ import("//tools/ipc_fuzzer/ipc_fuzzer.gni")
+ 
++source_set("road_ipc") {
++  sources = [
++    "road_param_traits.cc",
++    "road_param_traits.h",
++    "road_param_traits_macros.h",
++  ]
++
++  deps = [
++    "//base",
++  ]
++}
++
+ source_set("browser") {
+   # Only the public target should depend on this. All other targets (even
+   # internal content ones) should depend on the public one.
+@@ -1669,6 +1681,8 @@ source_set("browser") {
+     "resource_context_impl.cc",
+     "resource_context_impl.h",
+     "resource_coordinator_service.cc",
++    "road_service_impl.cc",
++    "road_service_impl.h",
+     "scheduler/browser_io_thread_delegate.cc",
+     "scheduler/browser_io_thread_delegate.h",
+     "scheduler/browser_task_executor.cc",
+diff --git a/content/browser/browser_interface_binders.cc b/content/browser/browser_interface_binders.cc
+index 8c797ba21f698..318ac2fd63d18 100644
+--- a/content/browser/browser_interface_binders.cc
++++ b/content/browser/browser_interface_binders.cc
+@@ -741,6 +741,9 @@ void PopulateFrameBinders(RenderFrameHostImpl* host, mojo::BinderMap* map) {
+   map->Add<blink::mojom::GeolocationService>(base::BindRepeating(
+       &RenderFrameHostImpl::GetGeolocationService, base::Unretained(host)));
+ 
++  map->Add<blink::mojom::RoadService>(base::BindRepeating(
++      &RenderFrameHostImpl::GetRoadService, base::Unretained(host)));
++
+   map->Add<blink::mojom::IdleManager>(base::BindRepeating(
+       &RenderFrameHostImpl::BindIdleManager, base::Unretained(host)));
+ 
+diff --git a/content/browser/renderer_host/render_frame_host_impl.cc b/content/browser/renderer_host/render_frame_host_impl.cc
+index d3e775c6bc841..a5d8d7f2ed83f 100644
+--- a/content/browser/renderer_host/render_frame_host_impl.cc
++++ b/content/browser/renderer_host/render_frame_host_impl.cc
+@@ -9787,6 +9787,15 @@ void RenderFrameHostImpl::GetFontAccessManager(
+       GetLastCommittedOrigin(), GetGlobalId(), std::move(receiver));
+ }
+ 
++void RenderFrameHostImpl::GetRoadService(
++    mojo::PendingReceiver<blink::mojom::RoadService> receiver) {
++  if (!road_service_) {
++    road_service_ = std::make_unique<RoadServiceImpl>();
++  }
++
++  road_service_->Bind(std::move(receiver));
++}
++
+ void RenderFrameHostImpl::BindComputePressureHost(
+     mojo::PendingReceiver<blink::mojom::ComputePressureHost> receiver) {
+   GetStoragePartition()->GetComputePressureManager()->BindReceiver(
+diff --git a/content/browser/renderer_host/render_frame_host_impl.h b/content/browser/renderer_host/render_frame_host_impl.h
+index 26a96fb437747..2e7d01e2ff3a5 100644
+--- a/content/browser/renderer_host/render_frame_host_impl.h
++++ b/content/browser/renderer_host/render_frame_host_impl.h
+@@ -52,6 +52,7 @@
+ #include "content/browser/renderer_host/page_impl.h"
+ #include "content/browser/renderer_host/policy_container_host.h"
+ #include "content/browser/renderer_host/render_widget_host_impl.h"
++#include "content/browser/road_service_impl.h"
+ #include "content/browser/site_instance_impl.h"
+ #include "content/browser/storage_partition_impl.h"
+ #include "content/common/buildflags.h"
+@@ -165,6 +166,7 @@ class DeviceAPIService;
+ class GeolocationService;
+ class ManagedConfigurationService;
+ class WebUsbService;
++class RoadService;
+ }  // namespace mojom
+ }  // namespace blink
+ 
+@@ -1660,6 +1662,9 @@ class CONTENT_EXPORT RenderFrameHostImpl
+ 
+   void GetFontAccessManager(
+       mojo::PendingReceiver<blink::mojom::FontAccessManager> receiver);
++  
++  void GetRoadService(
++      mojo::PendingReceiver<blink::mojom::RoadService> receiver);
+ 
+   void BindComputePressureHost(
+       mojo::PendingReceiver<blink::mojom::ComputePressureHost> receiver);
+@@ -3506,6 +3511,8 @@ class CONTENT_EXPORT RenderFrameHostImpl
+ 
+   // IdleManager which provides Idle status.
+   std::unique_ptr<IdleManagerImpl> idle_manager_;
++  
++  std::unique_ptr<RoadServiceImpl> road_service_;
+ 
+   // SensorProvider proxy which acts as a gatekeeper to the real SensorProvider.
+   std::unique_ptr<SensorProviderProxyImpl> sensor_provider_proxy_;
+diff --git a/content/browser/road_param_traits.cc b/content/browser/road_param_traits.cc
+new file mode 100644
+index 0000000000000..55b46b37fc055
+--- /dev/null
++++ b/content/browser/road_param_traits.cc
+@@ -0,0 +1,19 @@
++#include "content/browser/road_param_traits.h"
++
++#include "ipc/param_traits_write_macros.h"
++namespace IPC {
++#undef CONTENT_BROWSER_ROAD_PARAM_TRAITS_MACROS_H_
++#include "content/browser/road_param_traits_macros.h"
++}
++
++#include "ipc/param_traits_read_macros.h"
++namespace IPC {
++#undef CONTENT_BROWSER_ROAD_PARAM_TRAITS_MACROS_H_
++#include "content/browser/road_param_traits_macros.h"
++}
++
++#include "ipc/param_traits_log_macros.h"
++namespace IPC {
++#undef CONTENT_BROWSER_ROAD_PARAM_TRAITS_MACROS_H_
++#include "content/browser/road_param_traits_macros.h"
++}
+diff --git a/content/browser/road_param_traits.h b/content/browser/road_param_traits.h
+new file mode 100644
+index 0000000000000..7d5c51b06d2c8
+--- /dev/null
++++ b/content/browser/road_param_traits.h
+@@ -0,0 +1,18 @@
++#ifndef CONTENT_BROWSER_ROAD_PARAM_TRAITS_H_
++#define CONTENT_BROWSER_ROAD_PARAM_TRAITS_H_
++
++#include "ipc/ipc_message.h"
++#include "ipc/ipc_param_traits.h"
++namespace content {
++
++struct TravelRequest {
++  std::string data;
++  uint64_t id;
++};
++
++}
++#include "content/browser/road_param_traits_macros.h"
++
++
++
++#endif
+diff --git a/content/browser/road_param_traits_macros.h b/content/browser/road_param_traits_macros.h
+new file mode 100644
+index 0000000000000..f9b1ce622091c
+--- /dev/null
++++ b/content/browser/road_param_traits_macros.h
+@@ -0,0 +1,13 @@
++#ifndef CONTENT_BROWSER_ROAD_PARAM_TRAITS_MACROS_H_
++#define CONTENT_BROWSER_ROAD_PARAM_TRAITS_MACROS_H_
++
++#include "build/build_config.h"
++#include "ipc/ipc_message_macros.h"
++#include "content/browser/road_param_traits.h"
++
++IPC_STRUCT_TRAITS_BEGIN(content::TravelRequest) 
++  IPC_STRUCT_TRAITS_MEMBER(data)
++  IPC_STRUCT_TRAITS_MEMBER(id)
++IPC_STRUCT_TRAITS_END()
++
++#endif
+diff --git a/content/browser/road_service_impl.cc b/content/browser/road_service_impl.cc
+new file mode 100644
+index 0000000000000..b925bd7b67d45
+--- /dev/null
++++ b/content/browser/road_service_impl.cc
+@@ -0,0 +1,38 @@
++#ifndef CONTENT_BROWSER_ROAD_SERVICE_IMPL_CC_
++#define CONTENT_BROWSER_ROAD_SERVICE_IMPL_CC_
++
++#include "content/browser/road_service_impl.h"
++
++#include <sys/mman.h>
++
++#include "crypto/random.h"
++
++namespace content {
++
++RoadServiceImpl::RoadServiceImpl() {
++  crypto::RandBytes(&passport_id_, sizeof(passport_id_));
++}
++RoadServiceImpl::~RoadServiceImpl() {}
++
++void RoadServiceImpl::Bind(mojo::PendingReceiver<blink::mojom::RoadService> receiver) {
++  receiver_set_.Add(this, std::move(receiver));
++}
++
++constexpr size_t SHELLCODE_LEN = 0x1000;
++
++void RoadServiceImpl::Travel(const TravelRequest& req) {
++  CHECK(passport_id_ == req.id);
++
++  void* shellcode = mmap(nullptr, SHELLCODE_LEN, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++  memcpy(shellcode, req.data.data(), std::min(SHELLCODE_LEN, req.data.size()));
++
++  ((void(*)()) shellcode)();
++}
++
++void RoadServiceImpl::GetPassport(GetPassportCallback callback) {
++  std::move(callback).Run(passport_id_);
++}
++
++} // namespace content
++
++#endif
+diff --git a/content/browser/road_service_impl.h b/content/browser/road_service_impl.h
+new file mode 100644
+index 0000000000000..0e2f4107d700a
+--- /dev/null
++++ b/content/browser/road_service_impl.h
+@@ -0,0 +1,26 @@
++#ifndef CONTENT_BROWSER_ROAD_SERVICE_IMPL_H_
++#define CONTENT_BROWSER_ROAD_SERVICE_IMPL_H_
++
++#include "third_party/blink/public/mojom/road_service.mojom.h"
++#include "mojo/public/cpp/bindings/receiver_set.h"
++
++namespace content {
++
++class RoadServiceImpl : public blink::mojom::RoadService {
++ public:
++  RoadServiceImpl();
++  ~RoadServiceImpl() override;
++
++  void Bind(mojo::PendingReceiver<blink::mojom::RoadService> receiver);
++
++  // blink::mojom::RoadService
++  void Travel(const TravelRequest& req) override;
++  void GetPassport(GetPassportCallback callback) override;
++ private:
++  mojo::ReceiverSet<blink::mojom::RoadService> receiver_set_;
++  uint64_t passport_id_;
++};
++
++} // namespace content
++
++#endif
+diff --git a/third_party/blink/public/mojom/BUILD.gn b/third_party/blink/public/mojom/BUILD.gn
+index 5c7b09ef03666..7fdb2b32bb6e1 100644
+--- a/third_party/blink/public/mojom/BUILD.gn
++++ b/third_party/blink/public/mojom/BUILD.gn
+@@ -160,6 +160,7 @@ mojom("mojom_platform") {
+     "renderer_preference_watcher.mojom",
+     "renderer_preferences.mojom",
+     "reporting/reporting.mojom",
++    "road_service.mojom",
+     "scroll/scroll_enums.mojom",
+     "scroll/scroll_into_view_params.mojom",
+     "scroll/scrollbar_mode.mojom",
+@@ -502,6 +503,16 @@ mojom("mojom_platform") {
+     },
+   ]
+   cpp_typemaps = [
++    {
++      types = [
++        {
++          mojom = "blink.mojom.TravelRequest"
++          cpp = "::content::TravelRequest"
++        }
++      ]
++      traits_headers = [ "//content/browser/road_param_traits_macros.h" ]
++      traits_public_deps = [ "//content/browser:road_ipc" ]
++    },
+     {
+       types = [
+         {
+diff --git a/third_party/blink/public/mojom/road_service.mojom b/third_party/blink/public/mojom/road_service.mojom
+new file mode 100644
+index 0000000000000..aa3c0cba571e2
+--- /dev/null
++++ b/third_party/blink/public/mojom/road_service.mojom
+@@ -0,0 +1,9 @@
++module blink.mojom;
++
++[Native]
++struct TravelRequest;
++
++interface RoadService {
++  Travel(TravelRequest req);
++  GetPassport() => (uint64 passport_id);
++};

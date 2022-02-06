@@ -1,0 +1,10 @@
+name: shibari
+author: ireland
+description: |-
+  Virtual Black Box obfuscation is provably impossible, so to keep my program safe I use Very Big Braid obfuscation!
+
+  Note: if your solution seems too slow, that's because it is.
+provide:
+- ./shibari.7z
+flag:
+  file: ./flag.txt
